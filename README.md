@@ -11,11 +11,13 @@ Herdr's own mods. `RECIPE.md` is the brief another agent can rebuild it from.
 ## Install
 
 ```sh
-cp -R layouts/dev-layout.json ~/.config/herdr-app/layouts/
+cp layouts/dev-layout.json layouts/dev-layout.png ~/.config/herdr-app/layouts/
 cp -R mods/nm-nav mods/nm-logo ~/.config/herdr-app/mods/
 herdr-app check ~/.config/herdr-app/mods/nm-nav
-herdr-app do layout.switch --name dev-layout   # or ctrl+shift+l
+herdr-app do layout.switch --name dev-layout
 ```
+
+The `.png` is only the thumbnail the settings screen shows for the layout.
 
 Your current layout and files are untouched; delete the two mod folders and the
 layout file to remove it.

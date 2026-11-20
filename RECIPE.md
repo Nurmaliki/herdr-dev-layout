@@ -12,14 +12,15 @@ thin status bar.
 Top to bottom, left to right.
 
 **Top bar** — 38px tall, part of the window drag area, `chrome` background. Starts
-with a small `NM` label (11px semibold, dim). Then three button groups separated by
-1px dividers (`border`, 14px tall): `Files`, `Changes`, `Agent` · `Agents`, `Kanban`
-· `GitLens`, `Worktree` · `Help`. Each button is 24px tall, 7px horizontal padding,
+with a small `NM` label (11px semibold, dim, 6px sides). Then four button
+groups separated by 1px dividers (`border`, 14px tall, 4px sides): `Files`,
+`Changes`, `Agent` · `Agents`, `Kanban` · `GitLens`, `Worktree` · `Help`. Each
+button is 24px tall, 7px horizontal padding,
 6px gap, 6px radius, 12px text, a 13px icon, `muted` text/`dim` icon; hover gives
 `raised` background and `foreground` text; the button whose panel is showing gets a
 `selected` background and `accent` icon. The right end holds `Sidebar`, `Panel` and
-the command-palette button, whose label is the keycap bound to `app.palette`
-(`⌘⇧P` on macOS).
+the command-palette button, whose label is the keycap bound to `app.palette` — or
+the word `Commands` when no key is bound to it, which is the case here.
 
 **Sidebar** — 264px wide (`chrome`), resizable 44–460px.
 
@@ -107,6 +108,9 @@ Shipped mods it relies on: `spaces`, `agents`, `changes`, `files`,
   `layouts/.state/`, and the JSON only sets defaults.
 - macOS traffic lights need the sidebar ≥ 76px before the brand row reads well;
   the JSON min is 44px.
+- The layout's settings-screen thumbnail is `layouts/dev-layout.png` (the `preview`
+  key). The `.svg` it shipped with was a hand-drawn stale copy with no `Agent`
+  button, so it was replaced.
 - The preview blurs the sidebar names; retake it with `herdr-app shot` if you want a
   clean one (the blur avoids publishing other people's project names).
 
