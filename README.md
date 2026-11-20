@@ -39,7 +39,9 @@ The nav tooltips show these keycaps automatically.
 
 ## Notes
 
-- The nav icons come from Herdr's `mods/kanban` and `mods/workspace-chrome` mods.
+- The nav icons ship inside the mod (`mods/nm-nav/icons/`, from lucide-static, ISC).
+- Ten Straw Hat chips sit in the top bar: initials in theme tones with
+  `Name — role` tooltips. Edit `CREW` in `mods/nm-nav/main.js` to change the crew.
 - Only `nm-nav` and `nm-logo` are custom; do not replace Herdr's shipped mods.
 - Widths/heights are defaults; drags are saved in `layouts/.state/`.
 

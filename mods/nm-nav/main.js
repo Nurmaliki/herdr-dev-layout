@@ -2,32 +2,33 @@ import { View, div, svg } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { theme, run, layout, keys, window, shared } from "herdr";
 
-const K = (n) => `mods/kanban/${n}.svg`;
-const W = (n) => `mods/workspace-chrome/${n}.svg`;
+// Icons: lucide-static (ISC), copied into mods/nm-nav/icons/ so this mod does not
+// depend on Herdr's shipped kanban/workspace-chrome mods.
+const I = (n) => `mods/nm-nav/icons/${n}.svg`;
 
 // [label, icon, action] — action: {panel:"files"} fills the right panel,
 // {togglePanel:"agent"} hides it when that child is already showing,
 // {mod:"name"} opens an overlay, {toggle:"node"} hides/shows a node, null = palette
 const GROUPS = [
   [
-    ["Files", K("files"), { panel: "files" }],
-    ["Changes", K("changes"), { panel: "changes" }],
-    ["Agent", K("eye"), { togglePanel: "agent" }],
+    ["Files", I("folder-tree"), { panel: "files" }],
+    ["Changes", I("git-compare"), { panel: "changes" }],
+    ["Agent", I("eye"), { togglePanel: "agent" }],
   ],
   [
-    ["Agents", K("bot"), { mod: "agents" }],
-    ["Kanban", K("board"), { mod: "kanban" }],
+    ["Agents", I("users"), { mod: "agents" }],
+    ["Kanban", I("kanban"), { mod: "kanban" }],
   ],
   [
-    ["GitLens", K("git"), { mod: "gitlens" }],
-    ["Worktree", K("branch"), { mod: "worktree" }],
+    ["GitLens", I("git-branch"), { mod: "gitlens" }],
+    ["Worktree", I("git-fork"), { mod: "worktree" }],
   ],
-  [["Help", K("dialog"), { run: "app.help" }]],
+  [["Help", I("life-buoy"), { run: "app.help" }]],
 ];
 
 const RIGHT = [
-  ["Sidebar", W("sidebar"), { toggle: "sidebar" }],
-  ["Panel", W("panel-right"), { toggle: "panel" }],
+  ["Sidebar", I("panel-left"), { toggle: "sidebar" }],
+  ["Panel", I("panel-right"), { toggle: "panel" }],
 ];
 
 const find = (n, id) => n?.id === id ? n : (n?.children ?? []).map((c) => find(c, id)).find(Boolean) ?? null;
@@ -82,6 +83,20 @@ function tip(action, label) {
   return label;
 }
 
+// The crew, as initials: no third-party character art, just theme tones.
+const CREW = [
+  ["L", "Luffy", "captain", "accent"],
+  ["Z", "Zoro", "refactorer", "ansi2"],
+  ["N", "Nami", "navigator", "ansi3"],
+  ["U", "Usopp", "tester", "ansi5"],
+  ["S", "Sanji", "cook", "ansi4"],
+  ["C", "Chopper", "medic", "ansi6"],
+  ["R", "Robin", "reader", "ansi1"],
+  ["F", "Franky", "devops", "ansi4"],
+  ["B", "Brook", "soul", "ansi6"],
+  ["J", "Jinbe", "helmsman", "ansi1"],
+];
+
 function act(action) {
   if (action === null) run("app.palette");
   else if (action.panel) {
@@ -119,7 +134,7 @@ export default class NmNav extends View {
       : action?.panel ? panel.active === action.panel
       : action?.togglePanel ? panel.active === action.togglePanel
       : false;
-    const right = [...RIGHT, [cap("app.palette") || "Commands", K("search"), null]];
+    const right = [...RIGHT, [cap("app.palette") || "Commands", I("command"), null]];
     return h_flex().size_full().items_center().px(10)
       .child(div().text_size(11).font_semibold().text_color(t.dim).px(6).flex_none().child("NM"))
       .children(GROUPS.flatMap((group, i) => [
@@ -127,6 +142,14 @@ export default class NmNav extends View {
         ...group.map((item) => this.button(t, item, active(item[2]))),
       ]))
       .child(div().flex_1())
+      .children(CREW.map(([ini, name, role, tone]) => {
+        const c = t[tone] ?? t.muted;
+        return h_flex().id(`crew-${name}`).w(20).h(20).flex_none()
+          .justify_center().items_center().rounded(10)
+          .border(1).border_color(c).tooltip(`${name} — ${role}`)
+          .child(div().text_size(10).font_semibold().text_color(c).child(ini));
+      }))
+      .child(div().w(8).flex_none())
       .children(right.map((item) => this.button(t, item, false)));
   }
 }

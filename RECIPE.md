@@ -18,9 +18,17 @@ groups separated by 1px dividers (`border`, 14px tall, 4px sides): `Files`,
 button is 24px tall, 7px horizontal padding,
 6px gap, 6px radius, 12px text, a 13px icon, `muted` text/`dim` icon; hover gives
 `raised` background and `foreground` text; the button whose panel is showing gets a
-`selected` background and `accent` icon. The right end holds `Sidebar`, `Panel` and
-the command-palette button, whose label is the keycap bound to `app.palette` — or
-the word `Commands` when no key is bound to it, which is the case here.
+`selected` background and `accent` icon. After a flexible spacer sit the crew
+chips (see below), then `Sidebar`, `Panel` and the command-palette button, whose
+label is the keycap bound to `app.palette` (`⌘⇧P` on this Mac), or the word
+`Commands` when no key is bound to it.
+
+**Crew chips** — ten 20×20 circles, 1px `border_color` ring, 10px semibold initial,
+one per Straw Hat: `L` Luffy ( captain, `accent`), `Z` Zoro (refactorer, `ansi2`),
+`N` Nami (navigator, `ansi3`), `U` Usopp (tester, `ansi5`), `S` Sanji (cook,
+`ansi4`), `C` Chopper (medic, `ansi6`), `R` Robin (reader, `ansi1`), `F` Franky
+(devops, `ansi4`), `B` Brook (soul, `ansi6`), `J` Jinbe (helmsman, `ansi1`). Their
+tooltip is `Name — role`.
 
 **Sidebar** — 264px wide (`chrome`), resizable 44–460px.
 
@@ -57,6 +65,7 @@ clicking `needs you` focuses the blocked agent.
   keeps working when either is hidden; the middle area grows.
 - Every button has a tooltip. The tooltip text is built at render time from the
   user's `keys.json`, so it always shows the key that is really bound (or nothing).
+- The crew chips are decoration: hover shows `Name — role`, clicking does nothing.
 - Hover/selected states are the only motion; nothing animates on its own.
 - Right-click, drag-to-resize and tab drag are Herdr's defaults, untouched.
 
@@ -89,15 +98,23 @@ JSON actions), `tip(action, label)`, `act(action)` (the `run(...)` calls:
 `app.palette`, `layout.show`, `layout.select`, `layout.hide`, `layout.toggle`,
 `mod.open`).
 
+`mods/nm-nav/main.js` icons: `mods/nm-nav/icons/<name>.svg` — `folder-tree`,
+`git-compare`, `eye`, `users`, `kanban`, `git-branch`, `git-fork`, `life-buoy`,
+`panel-left`, `panel-right`, `command`, `skull` (the last one is spare). They are
+icons from lucide-static (ISC license, notice kept in each file), copied in so the
+mod owns its art.
+
 Shipped mods it relies on: `spaces`, `agents`, `changes`, `files`,
-`agent-progress`, `workspace-status`, `pane`, and the SVG art in `mods/kanban/` and
-`mods/workspace-chrome/` (icons are borrowed, no new assets).
+`agent-progress`, `workspace-status`, `pane`.
 
 ## Watch out
 
-- The nav icons are `mods/kanban/*.svg` and `mods/workspace-chrome/*.svg`. Those
-  mods must exist; on an install without them the buttons show empty icons and
-  still work.
+- The icons live in `mods/nm-nav/icons/`; keeping them out of Herdr's `mods/kanban`
+  and `mods/workspace-chrome` is deliberate, so this layout does not break when
+  those mods change.
+- The crew are initials, not character art: no free-licensed One Piece artwork
+  exists, so there is nothing copyrighted in this repo. Swap `CREW` for your own
+  names/tones, or replace a chip's `div()` with `image("…")` if you have art.
 - Do not copy Herdr's own `spaces`, `agents`, `changes`, `files`, `pane`,
   `agent-progress`, `workspace-status` from this recipe — only `nm-nav` and
   `nm-logo` are custom. Overwriting the shipped ones changes everyone's window.
